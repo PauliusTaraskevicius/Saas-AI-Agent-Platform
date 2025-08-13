@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
@@ -19,8 +21,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { OctagonAlert } from "lucide-react";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+
+import { FaGoogle } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
 
 const formSchema = z.object({
   email: z.email("Invalid email address"),
@@ -48,6 +51,7 @@ export default function SignInView() {
       {
         email: data.email,
         password: data.password,
+        callbackURL: "/",
       },
       {
         onSuccess: () => {
@@ -132,7 +136,14 @@ export default function SignInView() {
                     type="button"
                     className="w-full"
                     disabled={pending}
+                    onClick={() => {
+                      authClient.signIn.social({
+                        provider: "google",
+                        callbackURL: "/",
+                      });
+                    }}
                   >
+                    <FaGoogle />
                     Google
                   </Button>
                   <Button
@@ -140,7 +151,14 @@ export default function SignInView() {
                     type="button"
                     className="w-full"
                     disabled={pending}
+                    onClick={() => {
+                      authClient.signIn.social({
+                        provider: "github",
+                        callbackURL: "/",
+                      });
+                    }}
                   >
+                    <FaGithub />
                     Github
                   </Button>
                 </div>
