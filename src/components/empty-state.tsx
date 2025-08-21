@@ -3,14 +3,19 @@ import Image from "next/image";
 interface EmptyStateProps {
   title: string;
   description: string;
+  image?: string;
 }
 
-export function EmptyState({ description, title }: EmptyStateProps) {
+export function EmptyState({
+  description,
+  title,
+  image = "/empty.svg",
+}: EmptyStateProps) {
   return (
     <div className="flex flex-col items-center justify-center">
       <Image
         className="size-6 text-red-500"
-        src="/empty.svg"
+        src={image}
         alt="Empty"
         width={240}
         height={240}
